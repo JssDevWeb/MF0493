@@ -1,9 +1,9 @@
 services:
   - type: web
-    name: laraclient
+    name: MF0493
     env: docker
     plan: free
-    repo: https://github.com/tuusuario/tu-repo
+    repo: https://github.com/JssDevWeb/MF0493.git
     branch: master
     rootDir: .
     dockerfilePath: Dockerfile
