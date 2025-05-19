@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     nodejs \
     npm \
-    --no-install-recommends # La última línea de apt-get install NO lleva \
+    --no-install-recommends
 
 # Limpia el cache de apt para reducir el tamaño de la imagen
 RUN rm -rf /var/lib/apt/lists/*
@@ -33,8 +33,8 @@ COPY . .
 # Instala dependencias PHP del proyecto
 RUN composer install --no-dev --optimize-autoloader
 
-# Limpia caché de Laravel (recomendado)
-RUN php artisan optimize:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear
+# --- ESTA LÍNEA HA SIDO ELIMINADA PORQUE CAUSA ERRORES EN EL BUILD ---
+# RUN php artisan optimize:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear
 
 # Instala las dependencias de Node.js (package.json) y compila los assets de frontend
 RUN npm install && npm run build
