@@ -1,0 +1,40 @@
+# Instrucciones para acceder a la aplicación Laravel con VirtualHost
+
+1. **Configura el VirtualHost en Apache**
+   - Abre el archivo `C:/wamp64/bin/apache/apache2.4.x/conf/extra/httpd-vhosts.conf` (ajusta la versión si es necesario).
+   - Añade al final:
+
+```
+<VirtualHost *:80>
+    DocumentRoot "C:/wamp64/www/laravel/MF0493/Ejercicio1/public"
+    ServerName ejercicio1.local
+    <Directory "C:/wamp64/www/laravel/MF0493/Ejercicio1/public">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
+
+2. **Edita el archivo de hosts de Windows**
+   - Abre `C:\Windows\System32\drivers\etc\hosts` como administrador.
+   - Añade esta línea al final:
+```
+127.0.0.1    ejercicio1.local
+```
+
+3. **Reinicia Apache**
+   - Hazlo desde el panel de WAMP o XAMPP.
+
+4. **Accede a la aplicación**
+   - En tu navegador, entra a:
+```
+http://ejercicio1.local/departamentos
+```
+
+---
+
+**Notas:**
+- Si ves un error 404, revisa que el DocumentRoot apunte a la carpeta `public`.
+- Si cambias de PC o carpeta, actualiza las rutas en el VirtualHost y hosts.
+- Si no puedes usar VirtualHost, accede con la ruta larga:
+  `http://localhost/laravel/MF0493/Ejercicio1/public/departamentos`
