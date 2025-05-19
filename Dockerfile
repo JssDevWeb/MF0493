@@ -1,6 +1,6 @@
 FROM php:8.3-fpm
 
-# Instala dependencias necesarias para PHP, la base de datos y Node.js/NPM
+# Instala dependencias del sistema operativo (incluyendo Node.js y npm)
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
@@ -13,9 +13,15 @@ RUN apt-get update && apt-get install -y \
     curl \
     libpq-dev \
     libzip-dev \
-    nodejs \ # <-- Añadido: Instala Node.js
-    npm \    # <-- Añadido: Instala npm
-    && docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl bcmath gd pdo_pgsql
+    nodejs \
+    npm \
+    --no-install-recommends # La última línea de apt-get install NO lleva \
+
+# Limpia el cache de apt para reducir el tamaño de la imagen
+RUN rm -rf /var/lib/apt/lists/*
+
+# Instala extensiones de PHP
+RUN docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl bcmath gd pdo_pgsql
 
 # Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -27,16 +33,11 @@ COPY . .
 # Instala dependencias PHP del proyecto
 RUN composer install --no-dev --optimize-autoloader
 
-# Limpia caché de Laravel (recomendado, para asegurar que no haya caché local)
+# Limpia caché de Laravel (recomendado)
 RUN php artisan optimize:clear && php artisan config:clear && php artisan route:clear && php artisan view:clear
 
-# *** NUEVOS PASOS PARA EL FRONTEND ***
-# Instala las dependencias de Node.js (package.json)
-RUN npm install
-
-# Compila los assets de frontend para producción
-RUN npm run build
-# ***********************************
+# Instala las dependencias de Node.js (package.json) y compila los assets de frontend
+RUN npm install && npm run build
 
 # Genera APP_KEY y enlaces (si no se genera por Render)
 RUN php artisan key:generate && \
