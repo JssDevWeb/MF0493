@@ -14,15 +14,27 @@ services:
         value: production
       - key: APP_KEY
         generateValue: true
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        # Si no la pones, Render asignará una por defecto. Puedes añadirla después del primer despliegue.
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        value: localhost
+        value: dpg-d0lmjmqdbo4c73aq2k5g-a.oregon-postgres.render.com
       - key: DB_PORT
-        value: 5432
+        value: "5432"
       - key: DB_DATABASE
-        value: ejercicio1
+        value: ejercicio1_fxem
       - key: DB_USERNAME
-        value: postgres
+        value: ejercicio1_fxem_user
       - key: DB_PASSWORD
-        value: Semeolvido
+        value: 8za6aHBE3sdDhO96ogANP43JNYzuSwCj
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: info
+      - key: SESSION_DRIVER
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
